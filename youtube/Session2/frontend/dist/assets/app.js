@@ -1,17 +1,27 @@
-const API = "/api/users";
+// backend/frontend/assets/app.js
 
+const API = "/api/users";
 const loader = document.getElementById("loader");
 const tbody = document.querySelector("#usersTable tbody");
 const addForm = document.getElementById("addUserForm");
 
-// جلب المستخدمين
+// 🔹 دالة مركزية لتحويل الأخطاء لصفحة error.html
+function redirectToError(message) {
+  window.location.href = `error.html?msg=${encodeURIComponent(message)}`;
+}
+
+// 🔹 جلب المستخدمين
 async function fetchUsers() {
   loader.style.display = "block";
   tbody.innerHTML = "";
 
   try {
     const res = await fetch(API);
-    if (!res.ok) throw new Error("Failed to fetch users");
+    if (!res.ok) {
+      const error = await res.json();
+      redirectToError(error.error || "Failed to fetch users");
+      return;
+    }
 
     const users = await res.json();
 
@@ -35,20 +45,19 @@ async function fetchUsers() {
       tbody.appendChild(tr);
     });
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="4">Error loading users.</td></tr>`;
-    console.error(err);
+    redirectToError(err.message || "Error loading users");
   } finally {
     loader.style.display = "none";
   }
 }
 
-// إضافة مستخدم جديد
+// 🔹 إضافة مستخدم جديد
 async function addUser(e) {
   e.preventDefault();
   const name = document.getElementById("name").value.trim();
   const email = document.getElementById("email").value.trim();
 
-  if (!name || !email) return alert("All fields are required");
+  if (!name || !email) return redirectToError("All fields are required");
 
   try {
     const res = await fetch(API, {
@@ -57,39 +66,52 @@ async function addUser(e) {
       body: JSON.stringify({ name, email }),
     });
 
-    if (res.ok) {
-      fetchUsers();
-      e.target.reset();
-    } else {
+    if (!res.ok) {
       const error = await res.json();
-      alert(error.error || "Failed to add user");
-      window.location.href = "error.html";
+      redirectToError(error.error || "Failed to add user");
+      return;
     }
+
+    fetchUsers();
+    e.target.reset();
   } catch (err) {
-    alert("Error adding user");
-    window.location.href = "error.html";
-    console.error(err);
+    redirectToError(err.message || "Error adding user");
   }
 }
 
-// حذف مستخدم
+// 🔹 حذف مستخدم (Soft Delete)
 async function deleteUser(id) {
   if (!confirm("Delete this user?")) return;
+
   try {
     const res = await fetch(`${API}/${id}`, { method: "DELETE" });
-    if (res.ok) fetchUsers();
-    else {
+    if (!res.ok) {
       const error = await res.json();
-      alert(error.error || "Failed to delete user");
+      redirectToError(error.error || "Failed to delete user");
+      return;
     }
+    fetchUsers();
   } catch (err) {
-    alert("Error deleting user");
-    window.location.href = "error.html";
-    console.error(err);
+    redirectToError(err.message || "Error deleting user");
   }
 }
 
-// التنقل للصفحات الأخرى
+// 🔹 استرجاع مستخدم محذوف
+async function retrieveUser(id) {
+  try {
+    const res = await fetch(`${API}/retrieve/${id}`, { method: "PUT" });
+    if (!res.ok) {
+      const error = await res.json();
+      redirectToError(error.error || "Failed to retrieve user");
+      return;
+    }
+    fetchDeleted(); // لو صفحة deleted.html
+  } catch (err) {
+    redirectToError(err.message || "Error retrieving user");
+  }
+}
+
+// 🔹 التنقل للصفحات الأخرى
 function editUser(id) {
   window.location.href = `edit.html?id=${id}`;
 }
@@ -97,5 +119,8 @@ function viewUser(id) {
   window.location.href = `detail.html?id=${id}`;
 }
 
+// 🔹 Event Listener
 addForm.addEventListener("submit", addUser);
+
+// 🔹 Initial load
 fetchUsers();

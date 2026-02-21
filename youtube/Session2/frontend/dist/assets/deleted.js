@@ -3,6 +3,11 @@ const API = "/api/users/deleted";
 const loader = document.getElementById("loader");
 const tbody = document.querySelector("#deletedTable tbody");
 
+// دالة مركزية لإعادة التوجيه لصفحة الأخطاء مع رسالة
+function redirectToError(message) {
+  window.location.href = `error.html?msg=${encodeURIComponent(message)}`;
+}
+
 async function fetchDeleted() {
   loader.style.display = "block";
   tbody.innerHTML = "";
@@ -34,7 +39,7 @@ async function fetchDeleted() {
     });
   } catch (err) {
     console.error("Error fetching deleted users:", err);
-    window.location.href = "error.html";
+    redirectToError("Failed to load deleted users: " + err.message);
     tbody.innerHTML = `<tr><td colspan="5">Failed to load deleted users.</td></tr>`;
   } finally {
     loader.style.display = "none";
@@ -50,11 +55,10 @@ async function restoreUser(id) {
       window.location.href = "index.html"; // العودة إلى الصفحة الرئيسية
     } else {
       const error = await res.json();
-      window.location.href = "error.html";
-      alert(error.error || "Failed to restore user.");
+      redirectToError(error.error || "Failed to restore user.");
     }
   } catch (err) {
-    alert("Error restoring user.");
+    redirectToError("Error restoring user: " + err.message);
     console.error(err);
   }
 }

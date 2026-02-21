@@ -5,6 +5,11 @@ const API = `/api/users/${id}`;
 const loader = document.getElementById("loader");
 const userDetail = document.getElementById("userDetail");
 
+// دالة لإعادة التوجيه لصفحة الأخطاء مع رسالة
+function redirectToError(message) {
+  window.location.href = `error.html?msg=${encodeURIComponent(message)}`;
+}
+
 async function loadDetail() {
   loader.style.display = "block"; // أظهر Loader
   userDetail.innerHTML = "";
@@ -22,12 +27,11 @@ async function loadDetail() {
       <p><strong>Created At:</strong> ${new Date(u.created_at).toLocaleDateString()}</p>
     `;
   } catch (err) {
-    alert(err.message);
     console.error(err);
-    window.location.href = "index.html";
+    redirectToError(err.message);
   } finally {
     loader.style.display = "none"; // أخفي Loader
   }
 }
 
-loadDetail();
+document.addEventListener("DOMContentLoaded", loadDetail);

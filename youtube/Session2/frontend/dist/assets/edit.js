@@ -7,6 +7,11 @@ const form = document.getElementById("editUserForm");
 const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 
+// دالة لإعادة التوجيه لصفحة الأخطاء مع رسالة
+function redirectToError(message) {
+  window.location.href = `error.html?msg=${encodeURIComponent(message)}`;
+}
+
 // جلب بيانات المستخدم
 async function loadUser() {
   loader.style.display = "block";
@@ -15,13 +20,10 @@ async function loadUser() {
   try {
     const res = await fetch(API);
     if (!res.ok) {
-      if (res.status === 404) {
-        alert("User not found");
-        window.location.href = "error.html";
-        return;
-      }
+      throw new Error(
+        res.status === 404 ? "User not found" : "Failed to load user",
+      );
     }
-      
 
     const u = await res.json();
     nameInput.value = u.name;
@@ -29,8 +31,8 @@ async function loadUser() {
 
     form.style.display = "flex";
   } catch (err) {
-    alert(err.message);
-    window.location.href = "index.html";
+    console.error(err);
+    redirectToError(err.message);
   } finally {
     loader.style.display = "none";
   }
@@ -42,7 +44,10 @@ async function saveUser(e) {
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
 
-  if (!name || !email) return alert("All fields are required");
+  if (!name || !email) {
+    redirectToError("All fields are required");
+    return;
+  }
 
   try {
     const res = await fetch(API, {
@@ -52,17 +57,16 @@ async function saveUser(e) {
     });
 
     if (res.ok) {
-      alert("User updated successfully!");
       window.location.href = "index.html";
     } else {
       const error = await res.json();
-      alert(error.error || "Failed to update user");
+      throw new Error(error.error || "Failed to update user");
     }
   } catch (err) {
-    alert("Error updating user");
     console.error(err);
+    redirectToError(err.message);
   }
 }
 
 form.addEventListener("submit", saveUser);
-loadUser();
+document.addEventListener("DOMContentLoaded", loadUser);
