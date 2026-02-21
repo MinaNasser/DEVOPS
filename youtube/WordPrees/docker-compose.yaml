@@ -1,0 +1,36 @@
+services:
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "8000:80"
+    environment:
+      WORDPRESS_DB_HOST: mysqlWordpress:3306
+      WORDPRESS_DB_USER: wordpressUser
+      WORDPRESS_DB_PASSWORD: wordpressPass
+      WORDPRESS_DB_NAME: wordpressDB
+    depends_on:
+      - mysqlWordpress
+    volumes:
+      - wordpress_data:/var/www/html
+    
+    
+  mysqlWordpress:
+    image: mysql:8.4.8
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: wordpressUser
+      MYSQL_PASSWORD: wordpressPass
+      MYSQL_DATABASE: wordpressDB
+    volumes:
+      - mysql_data_wordpress:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+    
+
+volumes:
+  mysql_data_wordpress:
+
+  wordpress_data:
+
+ 
