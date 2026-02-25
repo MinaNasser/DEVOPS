@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --docker-blue: #2496ed;
+        --docker-dark: #0d1f2d;
+        --docker-darker: #091520;
+        --docker-light: #1a3a52;
+        --text-primary: #ffffff;
+        --text-secondary: #a8b8c8;
+        --accent-cyan: #66d9ff;
+        --accent-purple: #9b6dff;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background: var(--docker-darker);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .login-card {
+        background: var(--docker-dark);
+        padding: 2rem 3rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        max-width: 400px;
+      }
+      h1 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: var(--docker-blue);
+      }
+      input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+      }
+      button {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        background: var(--docker-blue);
+        color: #fff;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #1a8ae5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-card">
+      <h1>Login</h1>
+      <form action="/auth" method="POST">
+        <input type="text" name="username" placeholder="Username" required />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+  </body>
+</html>
