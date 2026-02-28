@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+<body>
+    <h1>API Test Page</h1>
+    <div id="result">Loading...</div>
+    
+    <script>
+        async function testAPI() {
+            try {
+                console.log('Testing API...');
+                const res = await fetch('/api/users');
+                console.log('Status:', res.status);
+                
+                const text = await res.text();
+                console.log('Raw response:', text);
+                
+                document.getElementById('result').innerHTML = `
+                    <h3>Response:</h3>
+                    <pre>${text}</pre>
+                `;
+                
+                // Try to parse as JSON
+                try {
+                    const json = JSON.parse(text);
+                    console.log('Parsed JSON:', json);
+                } catch (e) {
+                    console.log('Not JSON:', e.message);
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                document.getElementById('result').innerHTML = 'Error: ' + err.message;
+            }
+        }
+        
+        testAPI();
+    </script>
+</body>
+</html>

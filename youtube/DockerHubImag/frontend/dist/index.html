@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users List | Docker Hub</title>
+    <link rel="stylesheet" href="./assets/style.css" />
+  </head>
+  <body>
+    <div class="background"></div>
+
+    <div class="container">
+      <h1>Users</h1>
+      <a href="deleted.html" class="back-link">🗑️ Deleted Users</a>
+
+      <!-- Loader -->
+      <div id="loader">Loading users...</div>
+
+      <!-- Users Table -->
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Add User Form -->
+      <h2>Add New User</h2>
+      <form id="addUserForm">
+        <input type="text" placeholder="Name" id="name" required />
+        <input type="email" placeholder="Email" id="email" required />
+        <button type="submit">➕ Add User</button>
+      </form>
+    </div>
+
+    <!-- Scripts - الترتيب مهم: env.js أولاً ثم app.js -->
+    <script src="./assets/env.js"></script>
+    <script src="./assets/app.js"></script>
+  </body>
+</html>

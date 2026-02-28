@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 - Page Not Found | Docker Hub</title>
+    <style>
+      /* نفس الـ Styles اللي عندك + تعديل طفيف لزر النسخ */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --docker-blue: #2496ed;
+        --docker-dark: #0d1f2d;
+        --docker-darker: #091520;
+        --docker-light: #1a3a52;
+        --text-primary: #ffffff;
+        --text-secondary: #a8b8c8;
+        --accent-cyan: #66d9ff;
+        --accent-purple: #9b6dff;
+        --danger: #e74c3c;
+        --warning: #f1c40f;
+        --success: #2ecc71;
+        --info: #f39c12;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+          Cantarell, sans-serif;
+        background: var(--docker-darker);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1.6;
+      }
+      .container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 40px;
+        background: var(--docker-light);
+        border-radius: 8px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+        z-index: 1;
+      }
+      .error-code {
+        font-size: 120px;
+        font-weight: bold;
+        color: var(--accent-purple);
+        margin-bottom: 20px;
+        text-shadow: 0 0 20px rgba(155, 109, 255, 0.3);
+      }
+      .error-title {
+        font-size: 32px;
+        color: var(--text-primary);
+        margin-bottom: 15px;
+      }
+      .error-message {
+        color: var(--text-secondary);
+        font-size: 18px;
+        margin-bottom: 30px;
+        padding: 0 20px;
+      }
+      .error-details {
+        background: var(--docker-dark);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        text-align: left;
+      }
+      .error-details p {
+        color: var(--text-secondary);
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .error-details i {
+        width: 20px;
+        color: var(--accent-cyan);
+      }
+      .error-text {
+        color: var(--warning);
+        font-size: 16px;
+        margin-top: 10px;
+        padding: 15px;
+        background: rgba(241, 196, 15, 0.1);
+        border-radius: 4px;
+        word-break: break-word;
+        border: 1px solid var(--warning);
+      }
+      .copy-btn {
+        margin-top: 10px;
+        padding: 6px 12px;
+        background: var(--accent-cyan);
+        color: var(--docker-dark);
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      .copy-btn:hover {
+        background: var(--accent-purple);
+        color: #fff;
+      }
+      .action-buttons {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-top: 20px;
+      }
+      .btn {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+      }
+      .btn-primary {
+        background-color: var(--docker-blue);
+        color: var(--text-primary);
+      }
+      .btn-primary:hover {
+        background-color: var(--accent-cyan);
+        transform: translateY(-2px);
+      }
+      .btn-secondary {
+        background-color: var(--docker-dark);
+        color: var(--text-primary);
+      }
+      .btn-secondary:hover {
+        background-color: var(--docker-light);
+        transform: translateY(-2px);
+      }
+      .btn-danger {
+        background-color: var(--danger);
+        color: var(--text-primary);
+      }
+      .btn-danger:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+      }
+      .countdown {
+        color: var(--accent-cyan);
+        font-weight: bold;
+        margin-top: 20px;
+      }
+      .background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        background:
+          radial-gradient(
+            ellipse at 20% 80%,
+            rgba(36, 150, 237, 0.15) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 80% 20%,
+            rgba(155, 109, 255, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            ellipse at 50% 50%,
+            rgba(102, 217, 255, 0.05) 0%,
+            transparent 70%
+          );
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+      .docker-whale {
+        animation: float 3s ease-in-out infinite;
+        margin: 30px 0;
+        position: relative;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background"></div>
+    <div class="container">
+      <div class="status-badge">HTTP 404</div>
+      <div class="docker-whale">
+        <!-- SVG whale كما في الصفحة الأصلية -->
+      </div>
+      <div class="error-code">404</div>
+      <h1 class="error-title">Page Not Found</h1>
+      <p class="error-message">
+        Sorry, the container you're looking for doesn't exist or has been moved.
+      </p>
+
+      <div class="error-details">
+        <p>
+          <i>📦</i> Container ID:
+          <strong id="container-id" style="color: var(--accent-cyan)"
+            >undefined</strong
+          >
+        </p>
+        <p>
+          <i>🔍</i> Status:
+          <strong style="color: var(--danger)">Not Found</strong>
+        </p>
+        <p>
+          <i>📍</i> Path:
+          <strong
+            id="current-path"
+            style="color: var(--text-secondary)"
+          ></strong>
+        </p>
+        <p>
+          <i>⚠️</i> Error:
+          <strong style="color: var(--warning)" id="error-message"></strong>
+        </p>
+      </div>
+
+      <!-- رسالة الخطأ كاملة + زر النسخ -->
+      <div id="full-error" class="error-text" style="display: none"></div>
+      <button class="copy-btn" id="copy-error">Copy Error</button>
+
+      <div class="action-buttons">
+        <a href="/" class="btn btn-primary"><span>🏠</span> Go Home</a>
+        <a href="javascript:history.back()" class="btn btn-secondary"
+          ><span>↩️</span> Go Back</a
+        >
+        <a href="/api/users" class="btn btn-danger"
+          ><span>🔧</span> Check API</a
+        >
+      </div>
+
+      <div class="countdown" id="countdown">
+        Redirecting to home in <span id="timer">10</span> seconds...
+      </div>
+    </div>
+
+    <script>
+      // قراءة رسالة الخطأ و Container ID من الـ URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const errorMsg = urlParams.get("msg") || "Unknown error";
+      const containerId = urlParams.get("container") || "undefined";
+
+      // عرض المسار الحالي
+      document.getElementById("current-path").textContent =
+        window.location.pathname;
+      document.getElementById("container-id").textContent = containerId;
+
+      // عرض رسالة الخطأ
+      const errorElement = document.getElementById("error-message");
+      const fullError = document.getElementById("full-error");
+      if (errorElement) {
+        try {
+          const decodedMsg = decodeURIComponent(errorMsg);
+          errorElement.textContent = decodedMsg;
+          if (decodedMsg.length > 100) {
+            fullError.style.display = "block";
+            fullError.textContent = "Full error: " + decodedMsg;
+          }
+        } catch (e) {
+          errorElement.textContent = errorMsg;
+        }
+      }
+
+      // زر نسخ الخطأ
+      const copyBtn = document.getElementById("copy-error");
+      copyBtn.addEventListener("click", () => {
+        if (fullError.style.display === "block") {
+          navigator.clipboard.writeText(fullError.textContent).then(() => {
+            alert("✅ Error copied to clipboard!");
+          });
+        } else {
+          navigator.clipboard.writeText(errorElement.textContent).then(() => {
+            alert("✅ Error copied to clipboard!");
+          });
+        }
+      });
+
+      // عد تنازلي للـ redirect
+      let seconds = 10;
+      const timerElement = document.getElementById("timer");
+      const countdown = setInterval(() => {
+        seconds--;
+        timerElement.textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          window.location.href = "/";
+        }
+      }, 1000);
+
+      document.addEventListener("click", () => {
+        clearInterval(countdown);
+        document.getElementById("countdown").style.opacity = "0.5";
+      });
+    </script>
+  </body>
+</html>
