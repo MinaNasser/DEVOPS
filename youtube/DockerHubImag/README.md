@@ -7,10 +7,9 @@ Full-Stack CRUD Application using:
 - Database: PostgreSQL
 - Containerization: Docker & Docker Compose
 
----
 
 ## 📂 Project Structure
-
+```
 DockerHubImag/
 │
 ├── backend/
@@ -41,7 +40,7 @@ DockerHubImag/
 ├── docker-compose.yml
 └── README.md
 
----
+```
 
 ## 🚀 Getting Started
 
