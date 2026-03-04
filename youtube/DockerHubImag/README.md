@@ -7,10 +7,9 @@ Full-Stack CRUD Application using:
 - Database: PostgreSQL
 - Containerization: Docker & Docker Compose
 
----
 
 ## 📂 Project Structure
-
+```
 DockerHubImag/
 │
 ├── backend/
@@ -41,7 +40,7 @@ DockerHubImag/
 ├── docker-compose.yml
 └── README.md
 
----
+```
 
 ## 🚀 Getting Started
 
@@ -118,7 +117,7 @@ PUT /api/users/:id/restore
 PostgreSQL 15 (Alpine)
 
 Table auto-created on startup:
-
+```
 users (
 id SERIAL PRIMARY KEY,
 name VARCHAR(100),
@@ -127,7 +126,7 @@ isDeleted BOOLEAN DEFAULT FALSE,
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 deleted_at TIMESTAMP
 )
-
+```
 ---
 
 ## 🐳 Architecture
@@ -143,13 +142,15 @@ All services run inside a Docker bridge network.
 ---
 
 ## 🛑 Stop Containers
-
+```
 docker compose down
-
+```
+```
 Remove volumes (delete DB data):
-
+```
+```
 docker compose down -v
-
+```
 ---
 
 ## ✨ Features
@@ -166,4 +167,4 @@ docker compose down -v
 ## 👨‍💻 Author
 
 Mina Nasser
-"""
+
