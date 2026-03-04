@@ -1,43 +1,29 @@
+version: "3.9"
 services:
   db:
     image: postgres:15-alpine
     container_name: db-postgres
-    restart: unless-stopped
-    env_file:
-      - .env
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - web-servers
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 10s
 
   backend:
     build:
       context: ./backend
+      dockerfile: Dockerfile
     container_name: backend
-    restart: unless-stopped
     depends_on:
-      db:
-        condition: service_healthy
-    env_file:
-      - .env
+      - db
     environment:
-      PORT: ${PORT}
-      DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
-      DB_NAME: ${DB_NAME}
-      DB_PORT: ${DB_PORT}
-    # أضف هذا السطر لكشف port 3001 على المضيف
+      - PORT=3001
+      - DaTABASE_URL=postgresql://postgres:admin@db:5432/postgres
     ports:
       - "3001:3001"
     networks:
@@ -46,18 +32,15 @@ services:
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     container_name: frontend
-    restart: unless-stopped
     depends_on:
       - backend
     ports:
       - "80:80"
-    networks:
-      - web-servers
-
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html
+  
 volumes:
   pgdata:
 
-networks:
-  web-servers:
-    driver: bridge
