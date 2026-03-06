@@ -1,0 +1,44 @@
+# traefik/dynamic.yml
+http:
+  routers:
+    # ✅ راوتر خاص بالداشبورد (على port 8080)
+    dashboard:
+      entryPoints:
+        - traefik
+      rule: "PathPrefix(`/`) || PathPrefix(`/dashboard`)"
+      service: api@internal
+      priority: 100
+
+    # ✅ راوتر للـ Frontend (على port 80)
+    frontend:
+      entryPoints:
+        - web
+      rule: "PathPrefix(`/`)"
+      service: frontend-service
+      priority: 1
+
+    # ✅ راوتر للـ Backend (على port 80)
+    backend:
+      entryPoints:
+        - web
+      rule: "PathPrefix(`/api`)"
+      service: backend-service
+      priority: 2
+
+  services:
+    # ✅ خدمة الـ Frontend
+    frontend-service:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:80"
+
+    # ✅ خدمة الـ Backend
+    backend-service:
+      loadBalancer:
+        servers:
+          - url: "http://backend:3000"
+middlewares:
+  auth-dashboard:
+    basicAuth:
+      users:
+        - "admin:$2y$10$admin"

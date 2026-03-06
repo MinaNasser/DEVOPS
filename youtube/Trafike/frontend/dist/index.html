@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Users List</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <!-- icon of  site  in  tab -->
+    <link
+      class="favicon"
+      rel="icon"
+      href="assets/images/favicon.ico"
+      type="image/x-icon"
+      style="
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        border-radius: 50%;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        z-index: 9999;
+      "
+    />
+  </head>
+  <body>
+    <div class="background"></div>
+    <!-- خلفية متحركة -->
+
+    <div class="container">
+      <h1>Users</h1>
+      <a href="deleted.html" class="back-link">Deleted Users</a>
+
+      <!-- Loader -->
+      <div id="loader">Loading users...</div>
+
+      <!-- Users Table -->
+      <table id="usersTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Add User Form -->
+      <h2>Add User</h2>
+      <form id="addUserForm">
+        <input type="text" placeholder="Name" id="name" required />
+        <input type="email" placeholder="Email" id="email" required />
+        <button type="submit">Add</button>
+      </form>
+    </div>
+
+    <script src="assets/js/app.js"></script>
+  </body>
+</html>

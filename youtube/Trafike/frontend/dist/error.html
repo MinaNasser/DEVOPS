@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Error</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <div class="background"></div>
+    <!-- خلفية متحركة -->
+
+    <div class="container">
+      <h1>Oops!</h1>
+      <p id="error-msg">Something went wrong.</p>
+      <a href="index.html" class="back-link">Go Back Home</a>
+    </div>
+
+    <script>
+      // جلب رسالة الخطأ من URL parameter
+      const params = new URLSearchParams(window.location.search);
+      const msg = params.get("msg");
+      if (msg) {
+        document.getElementById("error-msg").textContent =
+          decodeURIComponent(msg);
+      }
+    </script>
+  </body>
+</html>
