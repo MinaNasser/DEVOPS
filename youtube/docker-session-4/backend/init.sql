@@ -6,9 +6,8 @@ CREATE TABLE IF NOT EXISTS items (
 );
 
 -- Insert some sample data
-INSERT INTO
-    items (name)
+INSERT INTO items (name)
 VALUES
-    ('Sample Item 1'),
-    ('Sample Item 2'),
-    ('Sample Item 3');
+('Sample Item 1'),
+('Sample Item 2'),
+('Sample Item 3');
