@@ -2,103 +2,282 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Full-Stack Docker App</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Full-Stack Docker App | Responsive</title>
     <style>
+      /* RESET + BASE */
       * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
       }
+
       body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          sans-serif;
+        background: linear-gradient(145deg, #5b7cfa 0%, #6d3b9e 100%);
         min-height: 100vh;
-        padding: 40px 20px;
+        padding: clamp(16px, 5vw, 48px) clamp(12px, 4vw, 24px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
+
       .container {
-        max-width: 600px;
+        max-width: 720px;
+        width: 100%;
         margin: 0 auto;
       }
+
       h1 {
         color: white;
         text-align: center;
-        margin-bottom: 30px;
-        font-size: 2.5em;
+        margin-bottom: clamp(20px, 5vh, 36px);
+        font-size: clamp(1.75rem, 6vw, 2.6rem);
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        word-break: break-word;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
       }
+
       .card {
-        background: white;
-        border-radius: 10px;
-        padding: 30px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: clamp(20px, 5vw, 32px);
+        padding: clamp(20px, 5vw, 36px);
+        box-shadow:
+          0 20px 40px rgba(0, 0, 0, 0.25),
+          0 4px 12px rgba(0, 0, 0, 0.1);
       }
+
+      .status {
+        text-align: center;
+        padding: 12px 16px;
+        margin-bottom: 24px;
+        border-radius: 60px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        background: #eef2ff;
+        color: #1e3a8a;
+        transition: all 0.2s;
+        word-break: break-word;
+        line-height: 1.4;
+      }
+
+      .status.connected {
+        background: #e0f2e9;
+        color: #0a5c2e;
+        border-left: 4px solid #2b9348;
+        border-radius: 60px;
+      }
+
+      .status.error {
+        background: #ffe6e5;
+        color: #b91c1c;
+        border-left: 4px solid #dc2626;
+        border-radius: 60px;
+      }
+
       .input-group {
         display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
+        flex-direction: row;
+        gap: 12px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
       }
+
       input[type="text"] {
         flex: 1;
-        padding: 12px 15px;
-        border: 2px solid #e0e0e0;
-        border-radius: 5px;
-        font-size: 16px;
-        transition: border-color 0.3s;
+        min-width: 160px;
+        padding: 14px 18px;
+        border: 2px solid #e2e8f0;
+        border-radius: 60px;
+        font-size: 1rem;
+        font-family: inherit;
+        background: #ffffff;
+        transition: all 0.2s;
       }
+
       input[type="text"]:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: #6c5ce7;
+        box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
       }
+
       button {
-        padding: 12px 25px;
-        background: #667eea;
+        padding: 14px 26px;
+        background: #6c5ce7;
         color: white;
         border: none;
-        border-radius: 5px;
-        font-size: 16px;
+        border-radius: 60px;
+        font-size: 1rem;
+        font-weight: 600;
+        font-family: inherit;
         cursor: pointer;
-        transition: background 0.3s;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
       }
-      button:hover {
-        background: #5a67d8;
+
+      button:hover:not(:disabled) {
+        background: #5a4ad1;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 14px rgba(92, 72, 200, 0.3);
       }
+
+      button:active:not(:disabled) {
+        transform: translateY(1px);
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
       .items-list {
         list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 55vh;
+        overflow-y: auto;
+        padding-right: 4px;
       }
+
+      .items-list::-webkit-scrollbar {
+        width: 5px;
+      }
+
+      .items-list::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+      }
+
+      .items-list::-webkit-scrollbar-thumb {
+        background: #b9a9ff;
+        border-radius: 10px;
+      }
+
       .items-list li {
-        padding: 15px;
-        background: #f8f9fa;
-        margin-bottom: 10px;
-        border-radius: 5px;
+        padding: 16px 18px;
+        background: #f9fafc;
+        border-radius: 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        transition: all 0.2s;
+        border: 1px solid #edf2f7;
       }
+
       .items-list li:hover {
-        background: #e9ecef;
+        background: #ffffff;
+        border-color: #ddd6fe;
+        transform: scale(1.01);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
       }
+
+      .items-list li span:first-child {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #1f2937;
+        word-break: break-word;
+        max-width: 65%;
+        line-height: 1.3;
+      }
+
       .timestamp {
-        font-size: 12px;
-        color: #6c757d;
+        font-size: 0.7rem;
+        color: #6b7280;
+        background: #f3f4f6;
+        padding: 5px 10px;
+        border-radius: 40px;
+        white-space: nowrap;
       }
-      .status {
-        text-align: center;
-        padding: 10px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-      }
-      .status.connected {
-        background: #d4edda;
-        color: #155724;
-      }
-      .status.error {
-        background: #f8d7da;
-        color: #721c24;
-      }
+
       .empty-state {
         text-align: center;
         color: #6c757d;
-        padding: 20px;
+        padding: 32px 20px !important;
+        background: #fefefe;
+        justify-content: center !important;
+        font-size: 0.95rem;
+        font-weight: 500;
+        border: 1px dashed #cbd5e1;
+      }
+
+      @media (max-width: 550px) {
+        .card {
+          padding: 20px;
+        }
+
+        .input-group {
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        button {
+          width: 100%;
+          justify-content: center;
+          padding: 14px;
+        }
+
+        input[type="text"] {
+          width: 100%;
+        }
+
+        .items-list li {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .items-list li span:first-child {
+          max-width: 100%;
+          width: 100%;
+        }
+
+        .timestamp {
+          align-self: flex-start;
+          white-space: normal;
+        }
+      }
+
+      @media (hover: none) and (pointer: coarse) {
+        button {
+          padding: 15px 20px;
+        }
+        .items-list li {
+          padding: 14px 16px;
+        }
+      }
+
+      @media (max-width: 850px) and (orientation: landscape) {
+        body {
+          padding: 16px;
+        }
+        .items-list {
+          max-height: 45vh;
+        }
+        h1 {
+          margin-bottom: 12px;
+        }
       }
     </style>
   </head>
@@ -106,38 +285,75 @@
     <div class="container">
       <h1>🐳 Full-Stack Docker App</h1>
       <div class="card">
-        <div id="status" class="status">Connecting to backend...</div>
+        <div id="status" class="status">🔌 Connecting to backend...</div>
 
         <div class="input-group">
           <input
             type="text"
             id="itemName"
-            placeholder="Enter item name"
+            placeholder="✏️ Enter item name..."
+            autocomplete="off"
+            aria-label="New item name"
             onkeypress="if (event.key === 'Enter') addItem();"
           />
-          <button onclick="addItem()">Add Item</button>
+          <button onclick="addItem()" id="addButton">➕ Add Item</button>
         </div>
 
         <ul id="items" class="items-list">
-          <li class="empty-state">Loading items...</li>
+          <li class="empty-state">⏳ Loading items...</li>
         </ul>
       </div>
     </div>
 
     <script>
-      const API_URL = "http://localhost:3001/api";
+      // Using relative path via Nginx Proxy
+      const API_BASE_URL = "/api";
+
+      let retryCount = 0;
+      let healthCheckInterval = null;
+
+      async function apiRequest(endpoint, options = {}) {
+        const url = API_BASE_URL + endpoint;
+        try {
+          const response = await fetch(url, {
+            ...options,
+            headers: {
+              "Content-Type": "application/json",
+              ...options.headers,
+            },
+          });
+          return response;
+        } catch (error) {
+          console.error(`API request failed to ${url}:`, error);
+          throw error;
+        }
+      }
 
       async function checkHealth() {
         const statusEl = document.getElementById("status");
         try {
-          const res = await fetch(`${API_URL}/health`);
-          const data = await res.json();
-          statusEl.className = "status connected";
-          statusEl.textContent = `✅ Connected to backend (${data.hostname})`;
-          return true;
+          const response = await apiRequest("/health");
+
+          if (response.ok) {
+            const data = await response.json();
+            statusEl.className = "status connected";
+            statusEl.innerHTML = `✅ Connected to backend (${data.hostname || "Backend"}) • ${new Date().toLocaleTimeString()}`;
+            retryCount = 0;
+            return true;
+          } else {
+            throw new Error(`HTTP ${response.status}`);
+          }
         } catch (err) {
+          console.error("Health check failed:", err);
           statusEl.className = "status error";
-          statusEl.textContent = "❌ Cannot connect to backend";
+
+          if (retryCount > 3) {
+            statusEl.innerHTML =
+              "❌ Cannot connect to backend. Make sure Docker services are running.<br><small>Check: docker-compose logs backend</small>";
+          } else {
+            statusEl.innerHTML = `❌ Connecting to backend... (Attempt ${retryCount + 1}/3)`;
+          }
+          retryCount++;
           return false;
         }
       }
@@ -145,60 +361,158 @@
       async function loadItems() {
         const listEl = document.getElementById("items");
         try {
-          const res = await fetch(`${API_URL}/items`);
+          const res = await apiRequest("/items");
+
+          if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+
           const items = await res.json();
 
-          if (items.length === 0) {
+          if (!items || items.length === 0) {
             listEl.innerHTML =
-              '<li class="empty-state">No items yet. Add one above!</li>';
+              '<li class="empty-state">📭 No items yet. Add one above!</li>';
             return;
           }
 
           listEl.innerHTML = items
-            .map(
-              (item) => `
-                    <li>
-                        <span>${item.name}</span>
-                        <span class="timestamp">${new Date(item.created_at).toLocaleString()}</span>
-                    </li>
-                `,
-            )
+            .map((item) => {
+              const safeName = escapeHtml(item.name);
+              const dateStr = item.created_at
+                ? new Date(item.created_at).toLocaleString()
+                : new Date().toLocaleString();
+              return `
+          <li>
+            <span>${safeName}</span>
+            <span class="timestamp">🕒 ${dateStr}</span>
+          </li>
+        `;
+            })
             .join("");
         } catch (err) {
+          console.error("Load items error:", err);
           listEl.innerHTML =
-            '<li class="empty-state">Failed to load items</li>';
+            '<li class="empty-state">⚠️ Failed to load items. Check backend connection.</li>';
         }
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        const div = document.createElement("div");
+        div.textContent = str;
+        return div.innerHTML;
       }
 
       async function addItem() {
         const input = document.getElementById("itemName");
         const name = input.value.trim();
+        const addBtn = document.getElementById("addButton");
 
         if (!name) {
-          alert("Please enter an item name");
+          input.style.borderColor = "#f97316";
+          setTimeout(() => {
+            input.style.borderColor = "#e2e8f0";
+          }, 1000);
+          alert("✨ Please enter an item name");
           return;
         }
 
+        const originalText = addBtn.innerHTML;
+        addBtn.innerHTML = "⏳ Adding...";
+        addBtn.disabled = true;
+
         try {
-          await fetch(`${API_URL}/items`, {
+          const res = await apiRequest("/items", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ name }),
+            body: JSON.stringify({ name: name }),
           });
+
+          if (!res.ok) {
+            const errorData = await res.json().catch(() => ({}));
+            throw new Error(errorData.message || `HTTP ${res.status}`);
+          }
+
           input.value = "";
-          loadItems();
+          input.focus();
+          await loadItems();
+
+          const statusEl = document.getElementById("status");
+          const originalStatus = statusEl.innerHTML;
+          statusEl.innerHTML = "✅ Item added successfully!";
+          setTimeout(() => {
+            if (statusEl.classList.contains("connected")) {
+              statusEl.innerHTML = originalStatus;
+            }
+          }, 2000);
         } catch (err) {
-          alert("Failed to add item");
+          console.error("Add item error:", err);
+          alert(`❌ Failed to add item: ${err.message}`);
+        } finally {
+          addBtn.innerHTML = originalText;
+          addBtn.disabled = false;
         }
       }
 
-      // Initialize
-      (async function init() {
+      function startPeriodicHealthCheck() {
+        if (healthCheckInterval) clearInterval(healthCheckInterval);
+
+        healthCheckInterval = setInterval(async () => {
+          const isHealthy = await checkHealth();
+          if (isHealthy) {
+            const listEl = document.getElementById("items");
+            if (
+              listEl.innerHTML.includes("Failed") ||
+              listEl.innerHTML.includes("failed")
+            ) {
+              await loadItems();
+            }
+          }
+        }, 10000);
+      }
+
+      window.retryConnection = async function () {
+        const statusDiv = document.getElementById("status");
+        statusDiv.innerHTML = "🔄 Retrying connection...";
+        retryCount = 0;
         const connected = await checkHealth();
         if (connected) {
-          loadItems();
+          await loadItems();
         }
-      })();
+      };
+
+      window.addEventListener("online", () => {
+        console.log("Network online, retrying connection");
+        retryCount = 0;
+        checkHealth().then((connected) => {
+          if (connected) loadItems();
+        });
+      });
+
+      window.addEventListener("offline", () => {
+        const statusEl = document.getElementById("status");
+        statusEl.className = "status error";
+        statusEl.innerHTML =
+          "📡 No internet connection — please check your network";
+      });
+
+      async function init() {
+        const connected = await checkHealth();
+
+        if (connected) {
+          await loadItems();
+        } else {
+          const statusEl = document.getElementById("status");
+          statusEl.innerHTML =
+            "❌ Cannot connect to backend. <button onclick='retryConnection()' style='background: #6c5ce7; color: white; border: none; padding: 4px 12px; border-radius: 20px; margin-left: 8px; cursor: pointer; font-size: 0.8rem;'>Retry</button>";
+        }
+
+        startPeriodicHealthCheck();
+      }
+
+      window.addItem = addItem;
+      window.retryConnection = retryConnection;
+
+      init();
     </script>
   </body>
 </html>
