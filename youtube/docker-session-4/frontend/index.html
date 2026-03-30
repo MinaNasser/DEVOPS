@@ -6,9 +6,9 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title>Full-Stack Docker App | Responsive</title>
+    <title>Full-Stack Docker App | Complete CRUD with Soft Delete</title>
     <style>
-      /* RESET + BASE */
+      /* جميع الـ Styles كما هي موجودة أعلاه */
       * {
         margin: 0;
         padding: 0;
@@ -33,7 +33,7 @@
       }
 
       .container {
-        max-width: 720px;
+        max-width: 1000px;
         width: 100%;
         margin: 0 auto;
       }
@@ -46,12 +46,6 @@
         font-weight: 700;
         letter-spacing: -0.3px;
         text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        word-break: break-word;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        flex-wrap: wrap;
       }
 
       .card {
@@ -73,22 +67,75 @@
         background: #eef2ff;
         color: #1e3a8a;
         transition: all 0.2s;
-        word-break: break-word;
-        line-height: 1.4;
       }
 
       .status.connected {
         background: #e0f2e9;
         color: #0a5c2e;
         border-left: 4px solid #2b9348;
-        border-radius: 60px;
       }
 
       .status.error {
         background: #ffe6e5;
         color: #b91c1c;
         border-left: 4px solid #dc2626;
-        border-radius: 60px;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 10px;
+      }
+
+      .tab-btn {
+        background: transparent;
+        color: #6b7280;
+        box-shadow: none;
+        padding: 10px 20px;
+        border-radius: 40px;
+      }
+
+      .tab-btn:hover:not(:disabled) {
+        background: #f3f4f6;
+        transform: none;
+      }
+
+      .tab-btn.active {
+        background: #6c5ce7;
+        color: white;
+      }
+
+      .stats {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 24px;
+        padding: 15px;
+        background: #f9fafc;
+        border-radius: 16px;
+        justify-content: space-around;
+        flex-wrap: wrap;
+      }
+
+      .stat-card {
+        text-align: center;
+        padding: 10px 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #6c5ce7;
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+        color: #6b7280;
+        margin-top: 5px;
       }
 
       .input-group {
@@ -101,7 +148,7 @@
 
       input[type="text"] {
         flex: 1;
-        min-width: 160px;
+        min-width: 200px;
         padding: 14px 18px;
         border: 2px solid #e2e8f0;
         border-radius: 60px;
@@ -150,6 +197,46 @@
         cursor: not-allowed;
       }
 
+      .btn-edit {
+        background: #f59e0b;
+      }
+
+      .btn-edit:hover:not(:disabled) {
+        background: #d97706;
+      }
+
+      .btn-delete {
+        background: #ef4444;
+      }
+
+      .btn-delete:hover:not(:disabled) {
+        background: #dc2626;
+      }
+
+      .btn-restore {
+        background: #10b981;
+      }
+
+      .btn-restore:hover:not(:disabled) {
+        background: #059669;
+      }
+
+      .btn-permanent {
+        background: #6b7280;
+      }
+
+      .btn-permanent:hover:not(:disabled) {
+        background: #4b5563;
+      }
+
+      .btn-save {
+        background: #10b981;
+      }
+
+      .btn-cancel {
+        background: #6b7280;
+      }
+
       .items-list {
         list-style: none;
         display: flex;
@@ -187,20 +274,60 @@
         border: 1px solid #edf2f7;
       }
 
+      .items-list li.deleted-item {
+        background: #fee2e2;
+        opacity: 0.8;
+        border-color: #fecaca;
+      }
+
       .items-list li:hover {
         background: #ffffff;
-        border-color: #ddd6fe;
         transform: scale(1.01);
         box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
       }
 
-      .items-list li span:first-child {
+      .item-content {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .item-name {
         font-size: 1rem;
         font-weight: 500;
         color: #1f2937;
         word-break: break-word;
-        max-width: 65%;
+        max-width: 40%;
         line-height: 1.3;
+      }
+
+      .deleted-item .item-name {
+        text-decoration: line-through;
+        color: #9ca3af;
+      }
+
+      .edit-input {
+        flex: 1;
+        padding: 8px 12px;
+        border: 2px solid #10b981;
+        border-radius: 40px;
+        font-size: 0.95rem;
+        font-family: inherit;
+        background: white;
+      }
+
+      .item-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .item-actions button {
+        padding: 6px 14px;
+        font-size: 0.8rem;
       }
 
       .timestamp {
@@ -219,65 +346,73 @@
         background: #fefefe;
         justify-content: center !important;
         font-size: 0.95rem;
-        font-weight: 500;
         border: 1px dashed #cbd5e1;
+      }
+
+      @media (max-width: 768px) {
+        .item-content {
+          flex-direction: column;
+          align-items: flex-start;
+          width: 100%;
+        }
+        .item-name {
+          max-width: 100%;
+        }
+        .item-actions {
+          width: 100%;
+          justify-content: flex-end;
+        }
       }
 
       @media (max-width: 550px) {
         .card {
           padding: 20px;
         }
-
         .input-group {
           flex-direction: column;
-          gap: 12px;
         }
-
         button {
           width: 100%;
           justify-content: center;
-          padding: 14px;
         }
-
-        input[type="text"] {
-          width: 100%;
-        }
-
-        .items-list li {
+        .tabs {
           flex-direction: column;
-          align-items: flex-start;
         }
-
-        .items-list li span:first-child {
-          max-width: 100%;
+        .tab-btn {
           width: 100%;
         }
-
-        .timestamp {
-          align-self: flex-start;
-          white-space: normal;
-        }
       }
 
-      @media (hover: none) and (pointer: coarse) {
-        button {
-          padding: 15px 20px;
-        }
-        .items-list li {
-          padding: 14px 16px;
-        }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
       }
 
-      @media (max-width: 850px) and (orientation: landscape) {
-        body {
-          padding: 16px;
-        }
-        .items-list {
-          max-height: 45vh;
-        }
-        h1 {
-          margin-bottom: 12px;
-        }
+      .modal-content {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        max-width: 400px;
+        width: 90%;
+        text-align: center;
+      }
+
+      .modal-content h3 {
+        margin-bottom: 20px;
+        color: #1f2937;
+      }
+
+      .modal-content button {
+        margin: 0 10px;
+        padding: 10px 20px;
       }
     </style>
   </head>
@@ -287,13 +422,23 @@
       <div class="card">
         <div id="status" class="status">🔌 Connecting to backend...</div>
 
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab('active')">
+            📋 Active Items
+          </button>
+          <button class="tab-btn" onclick="switchTab('deleted')">
+            🗑️ Deleted Items
+          </button>
+        </div>
+
+        <div id="stats" class="stats"></div>
+
         <div class="input-group">
           <input
             type="text"
             id="itemName"
             placeholder="✏️ Enter item name..."
             autocomplete="off"
-            aria-label="New item name"
             onkeypress="if (event.key === 'Enter') addItem();"
           />
           <button onclick="addItem()" id="addButton">➕ Add Item</button>
@@ -305,26 +450,31 @@
       </div>
     </div>
 
-    <script>
-      // Using relative path via Nginx Proxy
-      const API_BASE_URL = "/api";
+    <div id="confirmModal" class="modal">
+      <div class="modal-content">
+        <h3 id="modalMessage">Are you sure?</h3>
+        <button id="modalConfirmBtn" class="btn-delete">Confirm</button>
+        <button onclick="closeModal()" class="btn-cancel">Cancel</button>
+      </div>
+    </div>
 
+    <script>
+      const API_BASE_URL = "/api";
+      let currentTab = "active";
       let retryCount = 0;
       let healthCheckInterval = null;
+      let currentEditId = null;
 
       async function apiRequest(endpoint, options = {}) {
         const url = API_BASE_URL + endpoint;
         try {
           const response = await fetch(url, {
             ...options,
-            headers: {
-              "Content-Type": "application/json",
-              ...options.headers,
-            },
+            headers: { "Content-Type": "application/json", ...options.headers },
           });
           return response;
         } catch (error) {
-          console.error(`API request failed to ${url}:`, error);
+          console.error(`API request failed:`, error);
           throw error;
         }
       }
@@ -333,7 +483,6 @@
         const statusEl = document.getElementById("status");
         try {
           const response = await apiRequest("/health");
-
           if (response.ok) {
             const data = await response.json();
             statusEl.className = "status connected";
@@ -344,34 +493,44 @@
             throw new Error(`HTTP ${response.status}`);
           }
         } catch (err) {
-          console.error("Health check failed:", err);
           statusEl.className = "status error";
-
-          if (retryCount > 3) {
-            statusEl.innerHTML =
-              "❌ Cannot connect to backend. Make sure Docker services are running.<br><small>Check: docker-compose logs backend</small>";
-          } else {
-            statusEl.innerHTML = `❌ Connecting to backend... (Attempt ${retryCount + 1}/3)`;
-          }
+          statusEl.innerHTML =
+            retryCount > 3
+              ? "❌ Cannot connect to backend. Check Docker services."
+              : `❌ Connecting... (Attempt ${retryCount + 1}/3)`;
           retryCount++;
           return false;
         }
       }
 
+      async function loadStats() {
+        try {
+          const res = await apiRequest("/items/stats");
+          if (res.ok) {
+            const stats = await res.json();
+            document.getElementById("stats").innerHTML = `
+            <div class="stat-card"><div class="stat-number">${stats.total || 0}</div><div class="stat-label">Total Items</div></div>
+            <div class="stat-card"><div class="stat-number">${stats.active || 0}</div><div class="stat-label">Active</div></div>
+            <div class="stat-card"><div class="stat-number">${stats.deleted || 0}</div><div class="stat-label">Deleted</div></div>
+          `;
+          }
+        } catch (err) {
+          console.error("Failed to load stats:", err);
+        }
+      }
+
       async function loadItems() {
         const listEl = document.getElementById("items");
-        try {
-          const res = await apiRequest("/items");
+        const endpoint = currentTab === "active" ? "/items" : "/items/deleted";
 
-          if (!res.ok) {
-            throw new Error(`HTTP ${res.status}`);
-          }
+        try {
+          const res = await apiRequest(endpoint);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
           const items = await res.json();
 
           if (!items || items.length === 0) {
-            listEl.innerHTML =
-              '<li class="empty-state">📭 No items yet. Add one above!</li>';
+            listEl.innerHTML = `<li class="empty-state">📭 No ${currentTab === "active" ? "active" : "deleted"} items.</li>`;
             return;
           }
 
@@ -381,18 +540,50 @@
               const dateStr = item.created_at
                 ? new Date(item.created_at).toLocaleString()
                 : new Date().toLocaleString();
+              const isDeleted = item.is_deleted || item.deleted_at;
+
+              // Check if this item is currently being edited
+              if (currentEditId === item.id) {
+                return `
+              <li>
+                <div class="item-content">
+                  <input type="text" id="editInput_${item.id}" value="${safeName}" class="edit-input" onkeypress="if (event.key === 'Enter') saveEdit(${item.id})">
+                  <div class="item-actions">
+                    <button onclick="saveEdit(${item.id})" class="btn-save">💾 Save</button>
+                    <button onclick="cancelEdit()" class="btn-cancel">✖️ Cancel</button>
+                  </div>
+                </div>
+              </li>
+            `;
+              }
+
               return `
-          <li>
-            <span>${safeName}</span>
-            <span class="timestamp">🕒 ${dateStr}</span>
-          </li>
-        `;
+            <li class="${isDeleted ? "deleted-item" : ""}">
+              <div class="item-content">
+                <span class="item-name">${safeName}</span>
+                <span class="timestamp">🕒 ${dateStr}</span>
+                <div class="item-actions">
+                  ${
+                    currentTab === "active"
+                      ? `
+                    <button onclick="editItem(${item.id}, '${safeName.replace(/'/g, "\\'")}')" class="btn-edit">✏️ Edit</button>
+                    <button onclick="deleteItem(${item.id})" class="btn-delete">🗑️ Delete</button>
+                  `
+                      : `
+                    <button onclick="restoreItem(${item.id})" class="btn-restore">↩️ Restore</button>
+                    <button onclick="permanentDelete(${item.id})" class="btn-permanent">💀 Permanent</button>
+                  `
+                  }
+                </div>
+              </div>
+            </li>
+          `;
             })
             .join("");
         } catch (err) {
           console.error("Load items error:", err);
           listEl.innerHTML =
-            '<li class="empty-state">⚠️ Failed to load items. Check backend connection.</li>';
+            '<li class="empty-state">⚠️ Failed to load items.</li>';
         }
       }
 
@@ -409,108 +600,243 @@
         const addBtn = document.getElementById("addButton");
 
         if (!name) {
-          input.style.borderColor = "#f97316";
-          setTimeout(() => {
-            input.style.borderColor = "#e2e8f0";
-          }, 1000);
           alert("✨ Please enter an item name");
           return;
         }
 
-        const originalText = addBtn.innerHTML;
         addBtn.innerHTML = "⏳ Adding...";
         addBtn.disabled = true;
 
         try {
           const res = await apiRequest("/items", {
             method: "POST",
-            body: JSON.stringify({ name: name }),
+            body: JSON.stringify({ name }),
           });
 
-          if (!res.ok) {
-            const errorData = await res.json().catch(() => ({}));
-            throw new Error(errorData.message || `HTTP ${res.status}`);
-          }
+          if (!res.ok) throw new Error("Failed to add");
 
           input.value = "";
           input.focus();
+          await loadStats();
           await loadItems();
 
           const statusEl = document.getElementById("status");
           const originalStatus = statusEl.innerHTML;
           statusEl.innerHTML = "✅ Item added successfully!";
           setTimeout(() => {
-            if (statusEl.classList.contains("connected")) {
+            if (statusEl.classList.contains("connected"))
               statusEl.innerHTML = originalStatus;
-            }
           }, 2000);
         } catch (err) {
-          console.error("Add item error:", err);
           alert(`❌ Failed to add item: ${err.message}`);
         } finally {
-          addBtn.innerHTML = originalText;
+          addBtn.innerHTML = "➕ Add Item";
           addBtn.disabled = false;
         }
       }
 
+      function editItem(id, currentName) {
+        currentEditId = id;
+        loadItems();
+      }
+
+      async function saveEdit(id) {
+        const editInput = document.getElementById(`editInput_${id}`);
+        if (!editInput) {
+          console.error("Edit input not found");
+          return;
+        }
+
+        const newName = editInput.value.trim();
+
+        if (!newName) {
+          alert("✨ Item name cannot be empty");
+          return;
+        }
+
+        try {
+          const res = await apiRequest(`/items/${id}`, {
+            method: "PUT",
+            body: JSON.stringify({ name: newName }),
+          });
+
+          if (!res.ok) {
+            const error = await res.json();
+            throw new Error(error.message || "Failed to update");
+          }
+
+          currentEditId = null;
+          await loadStats();
+          await loadItems();
+
+          const statusEl = document.getElementById("status");
+          const originalStatus = statusEl.innerHTML;
+          statusEl.innerHTML = "✅ Item updated successfully!";
+          setTimeout(() => {
+            if (statusEl.classList.contains("connected"))
+              statusEl.innerHTML = originalStatus;
+          }, 2000);
+        } catch (err) {
+          alert(`❌ Failed to update: ${err.message}`);
+        }
+      }
+
+      function cancelEdit() {
+        currentEditId = null;
+        loadItems();
+      }
+
+      function deleteItem(id) {
+        showModal("Are you sure you want to delete this item?", async () => {
+          try {
+            const res = await apiRequest(`/items/${id}`, { method: "DELETE" });
+            if (!res.ok) throw new Error("Failed to delete");
+            await loadStats();
+            await loadItems();
+            showSuccess("Item deleted successfully!");
+          } catch (err) {
+            alert(`❌ Failed to delete: ${err.message}`);
+          }
+        });
+      }
+
+      function restoreItem(id) {
+        showModal("Restore this item?", async () => {
+          try {
+            const res = await apiRequest(`/items/${id}/restore`, {
+              method: "PUT",
+            });
+            if (!res.ok) throw new Error("Failed to restore");
+            await loadStats();
+            await loadItems();
+            showSuccess("Item restored successfully!");
+          } catch (err) {
+            alert(`❌ Failed to restore: ${err.message}`);
+          }
+        });
+      }
+
+      function permanentDelete(id) {
+        showModal(
+          "⚠️ This will permanently delete the item. This action cannot be undone!",
+          async () => {
+            try {
+              const res = await apiRequest(`/items/${id}/permanent`, {
+                method: "DELETE",
+              });
+              if (!res.ok) throw new Error("Failed to delete");
+              await loadStats();
+              await loadItems();
+              showSuccess("Item permanently deleted!");
+            } catch (err) {
+              alert(`❌ Failed to delete: ${err.message}`);
+            }
+          },
+        );
+      }
+
+      function showModal(message, onConfirm) {
+        const modal = document.getElementById("confirmModal");
+        const modalMsg = document.getElementById("modalMessage");
+        const confirmBtn = document.getElementById("modalConfirmBtn");
+
+        modalMsg.textContent = message;
+        modal.style.display = "flex";
+
+        const oldOnClick = confirmBtn.onclick;
+        confirmBtn.onclick = () => {
+          modal.style.display = "none";
+          onConfirm();
+          confirmBtn.onclick = oldOnClick;
+        };
+      }
+
+      function closeModal() {
+        document.getElementById("confirmModal").style.display = "none";
+      }
+
+      function showSuccess(message) {
+        const statusEl = document.getElementById("status");
+        const originalStatus = statusEl.innerHTML;
+        statusEl.innerHTML = `✅ ${message}`;
+        setTimeout(() => {
+          if (statusEl.classList.contains("connected"))
+            statusEl.innerHTML = originalStatus;
+        }, 2000);
+      }
+
+      async function switchTab(tab) {
+        currentTab = tab;
+        currentEditId = null; // Reset edit mode when switching tabs
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        if (tab === "active") {
+          document
+            .querySelector(".tab-btn:first-child")
+            .classList.add("active");
+        } else {
+          document.querySelector(".tab-btn:last-child").classList.add("active");
+        }
+        await loadItems();
+      }
+
       function startPeriodicHealthCheck() {
         if (healthCheckInterval) clearInterval(healthCheckInterval);
-
         healthCheckInterval = setInterval(async () => {
-          const isHealthy = await checkHealth();
-          if (isHealthy) {
-            const listEl = document.getElementById("items");
-            if (
-              listEl.innerHTML.includes("Failed") ||
-              listEl.innerHTML.includes("failed")
-            ) {
-              await loadItems();
-            }
+          if (await checkHealth()) {
+            await loadStats();
+            await loadItems();
           }
         }, 10000);
       }
 
       window.retryConnection = async function () {
-        const statusDiv = document.getElementById("status");
-        statusDiv.innerHTML = "🔄 Retrying connection...";
         retryCount = 0;
-        const connected = await checkHealth();
-        if (connected) {
+        if (await checkHealth()) {
+          await loadStats();
           await loadItems();
         }
       };
 
       window.addEventListener("online", () => {
-        console.log("Network online, retrying connection");
-        retryCount = 0;
         checkHealth().then((connected) => {
-          if (connected) loadItems();
+          if (connected) {
+            loadStats();
+            loadItems();
+          }
         });
       });
 
       window.addEventListener("offline", () => {
-        const statusEl = document.getElementById("status");
-        statusEl.className = "status error";
-        statusEl.innerHTML =
-          "📡 No internet connection — please check your network";
+        document.getElementById("status").className = "status error";
+        document.getElementById("status").innerHTML =
+          "📡 No internet connection";
       });
 
       async function init() {
         const connected = await checkHealth();
-
         if (connected) {
+          await loadStats();
           await loadItems();
         } else {
-          const statusEl = document.getElementById("status");
-          statusEl.innerHTML =
-            "❌ Cannot connect to backend. <button onclick='retryConnection()' style='background: #6c5ce7; color: white; border: none; padding: 4px 12px; border-radius: 20px; margin-left: 8px; cursor: pointer; font-size: 0.8rem;'>Retry</button>";
+          document.getElementById("status").innerHTML =
+            "❌ Cannot connect. <button onclick='retryConnection()' style='background:#6c5ce7;color:white;border:none;padding:4px 12px;border-radius:20px;margin-left:8px;cursor:pointer;'>Retry</button>";
         }
-
         startPeriodicHealthCheck();
       }
 
+      // Make functions globally available
       window.addItem = addItem;
+      window.editItem = editItem;
+      window.saveEdit = saveEdit;
+      window.cancelEdit = cancelEdit;
+      window.deleteItem = deleteItem;
+      window.restoreItem = restoreItem;
+      window.permanentDelete = permanentDelete;
+      window.switchTab = switchTab;
       window.retryConnection = retryConnection;
+      window.closeModal = closeModal;
 
       init();
     </script>
