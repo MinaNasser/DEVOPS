@@ -1,4 +1,4 @@
-# 🐳 Docker Full-Stack CRUD App
+#  Docker Full-Stack CRUD App
 
 Full-Stack CRUD Application using:
 
@@ -8,7 +8,7 @@ Full-Stack CRUD Application using:
 - Containerization: Docker & Docker Compose
 
 
-## 📂 Project Structure
+##  Project Structure
 ```
 DockerHubImag/
 │
@@ -42,13 +42,13 @@ DockerHubImag/
 
 ```
 
-## 🚀 Getting Started
+##  Getting Started
 
-### 1️⃣ Build & Run
+###  Build & Run
 
 docker compose up --build
 
-### 2️⃣ Access the Application
+###  Access the Application
 
 Frontend:
 http://localhost
@@ -61,7 +61,7 @@ localhost:5432
 
 ---
 
-## 🏗️ Services & Ports
+##  Services & Ports
 
 | Service  | Port | Description         |
 | -------- | ---- | ------------------- |
@@ -71,7 +71,7 @@ localhost:5432
 
 ---
 
-## 🔗 API Endpoints
+##  API Endpoints
 
 ### Test API
 
@@ -112,7 +112,7 @@ PUT /api/users/:id/restore
 
 ---
 
-## 🗄️ Database
+##  Database
 
 PostgreSQL 15 (Alpine)
 
@@ -129,7 +129,7 @@ deleted_at TIMESTAMP
 ```
 ---
 
-## 🐳 Architecture
+##  Architecture
 
 Frontend (Nginx :80)
 ↓
@@ -141,7 +141,7 @@ All services run inside a Docker bridge network.
 
 ---
 
-## 🛑 Stop Containers
+##  Stop Containers
 ```
 docker compose down
 ```
@@ -153,7 +153,7 @@ docker compose down -v
 ```
 ---
 
-## ✨ Features
+##  Features
 
 - Full CRUD operations
 - Soft delete & restore
@@ -164,7 +164,7 @@ docker compose down -v
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 Mina Nasser
 
