@@ -71,3 +71,9 @@ networks:
     driver: bridge
   backend-net:
     driver: bridge
+# Uncomment the following section to use Docker secrets for database credentials instead of environment variables. 
+# Make sure to create the secret files with the appropriate values before running the containers.
+#
+# secrets:
+#   db_password:
+#     file: ./backend/.env.development
